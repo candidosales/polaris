@@ -5,6 +5,7 @@
   "author": "Shopify Inc.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
+  "type": "module",
   "types": "dist/index.d.ts",
   "typesVersions": {
     "*": {
@@ -21,7 +22,8 @@
     "clean": "rm -rf .turbo node_modules dist",
     "dev": "rollup -c -w",
     "test": "jest",
-    "optimize": "yarn svgo -f icons"
+    "optimize": "yarn svgo -f icons",
+    "convert-svg-svelte": "node ./scripts/convert-svg-svelte.js"
   },
   "exports": {
     ".": {
