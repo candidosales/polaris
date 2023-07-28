@@ -1,3 +1,8 @@
+import fs from 'fs';
+
+import { createAriaLabel } from "./create-svelte-files.js";
+import { createSvelteFolder } from './utils.js';
+
 const templateIconsTsImport = `
     import {
         {{imports}}
@@ -15,7 +20,8 @@ const templateIconsTsMinorIcons = `
 const templateIconsTsIcon = `
 {
     icon: {{fileName}},
-    name: '{{iconName}}'
+    name: '{{iconName}}',
+    iconNameImport: '{{fileName}}',
 },
 `;
 
@@ -28,11 +34,14 @@ const fileNamesMinorTemplatesIcon = [];
 
 export function createIconsTsReadFiles(folderPath, files) {
 
+    createSvelteFolder(folderPath);
+
     files.every((file, index) => {
         const fileNameWithoutSVG = file.replace('.svg', '');
         fileNames.push(fileNameWithoutSVG);
 
-        const templateTemp = templateIconsTsIcon.replace('{{fileName}}', fileNameWithoutSVG).replace('{{iconName}}', createIconName(fileNameWithoutSVG));
+        const regexFileName = /{{fileName}}/gi;
+        const templateTemp = templateIconsTsIcon.replace(regexFileName, fileNameWithoutSVG).replace('{{iconName}}', createIconName(fileNameWithoutSVG));
         if(fileNameWithoutSVG.includes('Major')) {
             fileNamesMajorTemplatesIcon.push(templateTemp);
         } else {

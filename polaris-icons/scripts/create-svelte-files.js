@@ -25,16 +25,6 @@ const templateSvelte = `
     viewBox="0 0 20 20"
 >`;
 
-export function createSvelteFolder(folderPath) {
-    fs.mkdir(folderPath, { recursive: true }, (err) => {
-    if (err) {
-        console.error('Error creating folder:', err);
-    } else {
-        console.log('Folder created successfully!');
-    }
-    });
-}
-
 export function createSvelteFilesReadFiles(folderPath, files) {
     files.every((file, index) => {
         const fileNameWithoutSVG = file.replace('.svg', '');

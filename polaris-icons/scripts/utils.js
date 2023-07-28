@@ -1,6 +1,16 @@
 import fs from 'fs';
 import path from 'path';
 
+export function createSvelteFolder(folderPath) {
+  fs.mkdir(folderPath, { recursive: true }, (err) => {
+  if (err) {
+      console.error('Error creating folder:', err);
+  } else {
+      console.log('Folder created successfully!');
+  }
+  });
+}
+
 export function deleteFolderRecursive(folderPath) {
     if (fs.existsSync(folderPath)) {
       fs.readdirSync(folderPath).forEach((file) => {
