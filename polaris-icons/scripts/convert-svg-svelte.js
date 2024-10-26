@@ -12,9 +12,9 @@ const files = fs.readdirSync('./icons').filter((file) => file.endsWith('.svg'));
 
 const folderPath = './svelte';
 
-createIconsTsReadFiles(folderPath, files);
+// createIconsTsReadFiles(folderPath, files);
 
-// Create the svelte folder and icons svelte
-// deleteFolderRecursive(folderPath);
-// createSvelteFolder(folderPath);
-// createSvelte5FilesReadFiles(folderPath, files);
+// --- Create the svelte folder and icons svelte
+deleteFolderRecursive(folderPath);
+createSvelteFolder(folderPath);
+createSvelte5FilesReadFiles(folderPath, files);

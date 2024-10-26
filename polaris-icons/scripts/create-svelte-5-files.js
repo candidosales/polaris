@@ -32,13 +32,13 @@ export function createSvelte5FilesReadFiles(folderPath, files) {
 }
 
 function createSvelteFiles(folderPath, file, fileNameWithoutSVG) {
-	fs.readFile(`./icons/${file}`, 'utf8', (err, data) => {
+	fs.readFile(`./icons/${file}`, 'utf8', (err, svgContent) => {
 		if (err) {
 			console.error('Error reading the SVG file:', err);
 		} else {
-			console.log('SVG content:\n', data);
+			console.log('SVG content:\n', svgContent);
 
-			const finalData = replaceTemplate(fileNameWithoutSVG, data)
+			const finalData = replaceTemplate(fileNameWithoutSVG, svgContent)
 			console.log('SVG final data:\n', finalData);
 
 			createSvelteFile(folderPath, fileNameWithoutSVG, finalData);
@@ -57,15 +57,10 @@ function createSvelteFile(folderPath, fileName, content) {
 	})
 }
 
-function replaceTemplate(fileName, data) {
+function replaceTemplate(fileName, svgContent) {
 	const ariaLabel = createAriaLabel(fileName);
-	console.log('ariaLabel', ariaLabel);
-
+	const data = removeSVGFill(svgContent);
 	const templateFinal = replaceAriaLabelTemplate(ariaLabel, templateSvelte);
-
-	console.log('templateFinal', templateFinal)
-
-	console.log('-----------------------\n')
 
 	if (data.includes('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">')) {
 		return data.replace('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">', templateFinal);
@@ -83,4 +78,12 @@ export function createAriaLabel(fileName) {
 
 	const nameParts = nameCleaned.split(/(?=[A-Z])/);
 	return nameParts.join(' ').toLowerCase();
+}
+
+
+// Function to remove fill attributes from SVG path strings
+function removeSVGFill(svgPath) {
+	// This regex matches fill="#XXXXXX" or fill="#XXX" with any hex color
+	// It accounts for both 3 and 6 character hex codes
+	return svgPath.replace(/\s+fill="#[0-9A-Fa-f]{3,6}"/g, '');
 }
